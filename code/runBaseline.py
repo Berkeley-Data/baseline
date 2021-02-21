@@ -33,6 +33,6 @@ def main(argv):
         baseline.train_lstm()
     if baseline.params.test_cnn or baseline.params.test_lstm:
         baseline.test_models()
-    
+
 if __name__ == "__main__":
     main(sys.argv[1:])

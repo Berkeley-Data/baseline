@@ -29,6 +29,9 @@ from data_ml_functions.dataFunctions import prepare_data,calculate_class_weights
 import numpy as np
 import os
 
+import wandb
+from wandb.keras import WandbCallback
+
 #from data_ml_functions.multi_gpu import make_parallel
 
 from concurrent.futures import ProcessPoolExecutor
@@ -265,6 +268,13 @@ class FMOWBaseline:
         json.dump(codesTestData, open(self.params.files['lstm_test_struct'], 'w'))
 
     def test_models(self):
+
+        wandb.init(project="fmow", entity="cal-capstone")
+
+        wandb.config.update(self.params)  # adds all of the arguments as config variables
+        wandb.config.update({'framework': f'TensorFlow {tf.__version__}'})
+
+        wandb.config.update({'version': 'baseline'})
 
         codesTestData = json.load(open(self.params.files['lstm_test_struct']))
         metadataStats = json.load(open(self.params.files['dataset_stats']))
